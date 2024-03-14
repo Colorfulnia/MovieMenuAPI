@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.tao.moviemenuapi.databinding.FragmentPopularBinding
-import com.tao.moviemenuapi.model.PopularMovie.PopularMovie
+import com.tao.moviemenuapi.model.Popular.Result
 import com.tao.moviemenuapi.presenter.PopularPresenter
 
 class PopularFragment : Fragment() {
@@ -37,7 +37,7 @@ class PopularFragment : Fragment() {
         binding.recyclerViewPopular.adapter = adapter
     }
 
-    fun onMoviesFetched(movies: List<PopularMovie>) {
+    fun onMoviesFetched(movies: List<Result>) {
         adapter.updateMovies(movies)
     }
 

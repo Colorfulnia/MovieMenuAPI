@@ -1,7 +1,6 @@
-package com.tao.moviemenuapi.model.PopularMovie
+package com.tao.moviemenuapi.model.NowPlaying
 
-
-data class PopularMovie(
+data class Result(
     val adult: Boolean,
     val backdrop_path: String,
     val genre_ids: List<Int>,

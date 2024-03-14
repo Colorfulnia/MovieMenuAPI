@@ -6,7 +6,7 @@ import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
-import com.tao.moviemenuapi.model.PopularMovie.PopularMovie
+import com.tao.moviemenuapi.model.Popular.Result
 import com.tao.moviemenuapi.view.PopularFragment
 
 import org.json.JSONObject
@@ -32,8 +32,8 @@ class PopularPresenter(private val view: PopularFragment) {
 
     private fun parseMovies(jsonObject: JSONObject) {
         val moviesArray = jsonObject.getJSONArray("results")
-        val moviesType = object : TypeToken<List<PopularMovie>>() {}.type
-        val movies: List<PopularMovie> = Gson().fromJson(moviesArray.toString(), moviesType)
+        val moviesType = object : TypeToken<List<Result>>() {}.type
+        val movies: List<Result> = Gson().fromJson(moviesArray.toString(), moviesType)
 
         view.setMovies(movies)
     }

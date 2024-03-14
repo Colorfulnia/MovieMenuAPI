@@ -17,6 +17,8 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         initViews()
+
+        
     }
 
     private fun initViews() {
@@ -38,7 +40,7 @@ class MainActivity : AppCompatActivity() {
             }
             true
         }
-        // Start with one fragment initially displayed
+
         openFragment(nowPlayingFragment)
     }
 

@@ -1,6 +1,6 @@
-package com.tao.moviemenuapi.model.TopRatedResponse
+package com.tao.moviemenuapi.model.Upcoming
 
-data class TopRatedMovie(
+data class Result(
     val adult: Boolean,
     val backdrop_path: String,
     val genre_ids: List<Int>,
