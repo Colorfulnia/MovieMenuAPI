@@ -1,4 +1,4 @@
-package com.tao.moviemenuapi
+package com.tao.moviemenuapi.model
 
 object Constant {
     const val BASE_URL_NOWPLAYING="https://api.themoviedb.org/3/movie/now_playing?api_key=68609ba193d73fcc3c216f34d22dff09"
