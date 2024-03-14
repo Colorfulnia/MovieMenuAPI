@@ -24,7 +24,7 @@ class MainActivity : AppCompatActivity() {
         popularFragment = PopularFragment()
         upcomingFragment = UpcomingFragment()
 
-        binding.navView.setOnNavigationItemSelectedListener {
+        binding.bottomMenu.setOnNavigationItemSelectedListener {
             it->
             when (it.itemId) {
                 R.id.navigation_now_playing -> {

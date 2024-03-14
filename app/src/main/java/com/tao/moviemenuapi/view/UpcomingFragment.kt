@@ -5,53 +5,67 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.android.volley.Request
 import com.android.volley.toolbox.Volley
 import com.google.gson.Gson
-import com.tao.moviemenuapi.databinding.FragmentTopRatedBinding
-import com.tao.moviemenuapi.model.TopRatedResponse.TopRatedResponse
+import com.tao.moviemenuapi.databinding.FragmentUpcomingBinding
+import com.tao.moviemenuapi.model.Constant
+import com.tao.moviemenuapi.model.Upcoming.UpcomingResponse
+import com.tao.moviemenuapi.model.VolleyHandler
+import com.tao.moviemenuapi.presenter.UpcomingPresenter
 
 class UpcomingFragment : Fragment() {
-
-    private var _binding: FragmentTopRatedBinding? = null
-    private val binding get() = _binding!!
-    private lateinit var presenter: TopRatedPresenter
+    private lateinit var binding: FragmentUpcomingBinding
+    private lateinit var presenter: UpcomingPresenter
+    private lateinit var adapter: MovieAdapter
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        _binding = FragmentTopRatedBinding.inflate(inflater, container, false)
+        binding = FragmentUpcomingBinding.inflate(layoutInflater, container, false)
+        initPresenterUpcoming()
+        initViewsUpcoming()
+        val recyclerView = binding.recyclerViewUpcoming //binding
+        val spanCount = 1
+        recyclerView.layoutManager = GridLayoutManager(requireContext(),spanCount,LinearLayoutManager.VERTICAL,false)
         return binding.root
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        setupRecyclerView()
-        fetchTopRatedMovies()
+    private fun initViewsUpcoming(){
+        presenter.fetchUpcomingMovieData()
     }
 
-    private fun setupRecyclerView() {
-        binding.recyclerViewTopRated.layoutManager = LinearLayoutManager(context)
-
+    private fun initPresenterUpcoming(){
+        presenter = UpcomingPresenter(VolleyHandler(requireContext()),this)
     }
 
-    private fun fetchTopRatedMovies() {
-        val url = "Your API URL here"
-        val queue = Volley.newRequestQueue(context)
-        val gson = Gson()
-
-        val request = StringRequest(Request.Method.GET, url, { response ->
-            val topRatedResponse = gson.fromJson(response, TopRatedResponse::class.java)
-            val movies = topRatedResponse.results
-            binding.recyclerViewTopRated.adapter = MovieAdapter(movies)
-        }, { error ->
-            // Handle error
-        })
-
-        queue.add(request)
+    override fun onLoadUpcoming(isLoading:Boolean){
+        if(isLoading){
+            binding.progressUpcoming.visibility = View.VISIBLE
+        }else{
+            binding.progressUpcoming.visibility = View.GONE
+        }
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
+    override fun setResultUpcoming(upcomingResponse: UpcomingResponse){
+        val yourList = ArrayList<MovieDetails>()
+        val list = upcomingResponse.results
+        for(i in list.indices){
+            var url = "${Constant.BASE_URL_MOVIE.replace("{movie_id}",list[i].poster_path.toString())}"
+            yourList.add(
+                MovieDetails(
+                    list[i].original_title.toString(),
+                    url.toString(),
+                    list[i].vote_count.toString())
+            )
+            val adapter = MovieAdapter(requireContext(),yourList)
+            binding.recyclerViewUpcoming.adapter = adapter
+
+        }
     }
+
+    override fun showErrorUpcoming(message: String){}
 }

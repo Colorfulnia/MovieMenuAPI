@@ -25,7 +25,7 @@ class MovieAdapter(private val context: Context, private val movies: ArrayList<M
 
     inner class MovieViewHolder(private val binding: ItemMovieBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(movie: MovieDetails) {
-            binding.textViewMovieTitle.text = movie.title
+            binding.title.text = movie.title
             binding.rating.text = movie.rating
             Picasso.get().load(movie.image).into(binding.imageView2)
             binding.language.text = movie.language
