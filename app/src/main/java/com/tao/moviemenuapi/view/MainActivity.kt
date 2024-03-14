@@ -10,23 +10,22 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var nowPlayingFragment: NowPlayingFragment
     private lateinit var popularFragment: PopularFragment
-    private lateinit var topRatedFragment: TopRatedFragment
+    private lateinit var upcomingFragment: UpcomingFragment
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         initViews()
-
-        
     }
 
     private fun initViews() {
         nowPlayingFragment = NowPlayingFragment()
         popularFragment = PopularFragment()
-        topRatedFragment = TopRatedFragment()
+        upcomingFragment = UpcomingFragment()
 
         binding.navView.setOnNavigationItemSelectedListener {
+            it->
             when (it.itemId) {
                 R.id.navigation_now_playing -> {
                     openFragment(nowPlayingFragment)
@@ -34,19 +33,18 @@ class MainActivity : AppCompatActivity() {
                 R.id.navigation_popular -> {
                     openFragment(popularFragment)
                 }
-                R.id.navigation_top_rated -> {
-                    openFragment(topRatedFragment)
+                R.id.navigation_upcoming -> {
+                    openFragment(upcomingFragment)
                 }
             }
             true
         }
-
         openFragment(nowPlayingFragment)
     }
 
     private fun openFragment(fragment: Fragment) {
         supportFragmentManager.beginTransaction()
-            .replace(R.id.fragment_container, fragment)
+            .replace(R.id.container, fragment)
             .commit()
     }
 }

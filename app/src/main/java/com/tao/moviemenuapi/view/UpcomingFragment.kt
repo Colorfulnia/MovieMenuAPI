@@ -12,7 +12,7 @@ import com.google.gson.Gson
 import com.tao.moviemenuapi.databinding.FragmentTopRatedBinding
 import com.tao.moviemenuapi.model.TopRatedResponse.TopRatedResponse
 
-class TopRatedFragment : Fragment() {
+class UpcomingFragment : Fragment() {
 
     private var _binding: FragmentTopRatedBinding? = null
     private val binding get() = _binding!!

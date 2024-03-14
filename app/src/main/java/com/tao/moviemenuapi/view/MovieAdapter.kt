@@ -21,7 +21,7 @@ class MovieAdapter(private val context: Context, private val movies: ArrayList<M
     }
 
     override fun getItemCount(): Int = movies.size
-    
+
 
     inner class MovieViewHolder(private val binding: ItemMovieBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(movie: MovieDetails) {

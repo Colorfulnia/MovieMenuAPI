@@ -1,40 +1,25 @@
 package com.tao.moviemenuapi.presenter
 
+import com.tao.moviemenuapi.model.Popular.OptCallBackPopular
+import com.tao.moviemenuapi.model.Popular.PopularResponse
+import com.tao.moviemenuapi.model.VolleyHandler
 
-import com.android.volley.Request
-import com.android.volley.toolbox.JsonObjectRequest
-import com.android.volley.toolbox.Volley
-import com.google.gson.Gson
-import com.google.gson.reflect.TypeToken
-import com.tao.moviemenuapi.model.Popular.Result
-import com.tao.moviemenuapi.view.PopularFragment
-
-import org.json.JSONObject
-
-
-class PopularPresenter(private val view: PopularFragment) {
-
-    private fun getPopularMovies() {
-        val queue = Volley.newRequestQueue(context)
-        val url = "Your API URL"
-
-        val jsonObjectRequest = JsonObjectRequest(Request.Method.GET, url, null,
-            { response ->
-                parseMovies(response)
-            },
-            { error ->
-
+class PopularPresenter(
+    private val volleyHandler:VolleyHandler,
+    private val popularView: MVPPopular.PopularView
+): MVPPopular.PopularPresenter {
+    override fun fetchPopularMovieData() {
+        popularView.onLoadPopular(true)
+        volleyHandler.makeApiCallPopular(object : OptCallBackPopular{
+            override fun onSuccessPopular(popularResponse: PopularResponse) {
+                popularView.onLoadPopular(false)
+                popularView.setResultPopular(popularResponse)
             }
-        )
 
-        queue.add(jsonObjectRequest)
-    }
-
-    private fun parseMovies(jsonObject: JSONObject) {
-        val moviesArray = jsonObject.getJSONArray("results")
-        val moviesType = object : TypeToken<List<Result>>() {}.type
-        val movies: List<Result> = Gson().fromJson(moviesArray.toString(), moviesType)
-
-        view.setMovies(movies)
+            override fun onFailurePopular(message: String) {
+                popularView.onLoadPopular(false)
+                popularView.showErrorPopular(message)
+            }
+        })
     }
 }

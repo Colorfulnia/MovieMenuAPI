@@ -1,5 +1,7 @@
 package com.tao.moviemenuapi.presenter
 
+import com.tao.moviemenuapi.model.Upcoming.UpcomingResponse
+
 interface MVPUpcoming {
     interface UpcomingPresenter{
         fun fetchUpcomingMovieData()
